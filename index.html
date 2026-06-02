@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestEra — Turn Any PDF Into Exam-Style Tests | AI-Powered</title>
+  <meta name="description" content="Upload any study PDF and instantly generate exam-style timed tests for SSC, RRB, Banking, UPSC and more. AI-powered question generation with detailed results and cutoff analysis.">
+  <meta name="keywords" content="TestEra, exam preparation, SSC, RRB, UPSC, Banking, PDF to test, AI test generator, competitive exam, mock test">
+  <meta name="theme-color" content="#06070f">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Firebase SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="landing-nav" id="landingNav">
+    <div class="container">
+      <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        TestEra
+      </a>
+
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#exams">Exams</a>
+      </div>
+
+      <div class="nav-auth">
+        <button class="btn btn-primary" id="btnSignup" onclick="openModal('signupModal')">
+          Get Started Free
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-grid-bg"></div>
+    </div>
+
+    <div class="hero-content container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        AI-Powered Test Generator
+      </div>
+
+      <h1>
+        Turn Any Study PDF Into<br>
+        <span class="text-gradient">Real Exam-Style Tests</span>
+      </h1>
+
+      <p>
+        Upload your study PDF, select your exam pattern, and let AI generate 
+        a timed test with detailed results and cutoff analysis — in seconds.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="openModal('signupModal')">
+          <i class="fas fa-rocket"></i>
+          Start Creating Tests
+        </button>
+        <button class="btn btn-secondary btn-lg" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-play-circle"></i>
+          See How It Works
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num" id="statTests">10K+</div>
+          <div class="hero-stat-label">Tests Generated</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">6+</div>
+          <div class="hero-stat-label">Exam Patterns</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">7</div>
+          <div class="hero-stat-label">Question Types</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== FEATURES ===== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Features</div>
+        <h2>Everything You Need to <span class="text-gradient">Ace Your Exam</span></h2>
+        <p>From PDF upload to cutoff analysis — TestEra covers your entire test preparation journey.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <!-- Feature 1 -->
+        <div class="card card-glow feature-card animate-fadeInUp stagger-1">
+          <div class="icon-box icon-box-primary icon-box-lg">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <h4>Smart PDF Analysis</h4>
+          <p>Upload any study PDF — textbooks, notes, coaching materials. Our AI extracts key concepts and understands the content deeply.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card card-glow feature-card animate-fadeInUp stagger-2">
+          <div class="icon-box icon-box-accent icon-box-lg">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h4>AI Question Generation</h4>
+          <p>Get MCQs, statement-based, match the following, assertion-reason, fill-in-the-blank, true/false, and conceptual questions.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card card-glow feature-card animate-fadeInUp stagger-3">
+          <div class="icon-box icon-box-warning icon-box-lg">
+            <i class="fas fa-stopwatch"></i>
+          </div>
+          <h4>Exam Pattern Engine</h4>
+          <p>AI follows real exam patterns — SSC CGL, RRB NTPC, Banking, UPSC. Right number of questions, correct timing, proper difficulty.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card card-glow feature-card animate-fadeInUp stagger-1">
+          <div class="icon-box icon-box-success icon-box-lg">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h4>Detailed Results</h4>
+          <p>Get your score, accuracy, time analysis, correct answers with explanations, and weak topic identification after every test.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card card-glow feature-card animate-fadeInUp stagger-2">
+          <div class="icon-box icon-box-error icon-box-lg">
+            <i class="fas fa-crosshairs"></i>
+          </div>
+          <h4>Cutoff Analysis</h4>
+          <p>Compare your score against expected cutoffs. Know if you're above or below the line with selection probability prediction.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card card-glow feature-card animate-fadeInUp stagger-3">
+          <div class="icon-box icon-box-primary icon-box-lg">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h4>Anti-Hallucination</h4>
+          <p>Every generated question references your PDF content. No made-up questions — only what's in your study material.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section" id="how-it-works" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">How It Works</div>
+        <h2>From PDF to Test in <span class="text-gradient">4 Simple Steps</span></h2>
+        <p>No complex setup. No manual work. Just upload and start testing.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h4>Upload PDF</h4>
+          <p>Upload any study material — textbook PDF, handwritten notes, coaching material.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h4>Select Exam</h4>
+          <p>Choose your exam type (SSC, RRB, Banking, UPSC) and subject.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h4>AI Generates Test</h4>
+          <p>AI analyzes content and creates exam-pattern questions with proper timing.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h4>Attempt & Analyze</h4>
+          <p>Take the timed test, get detailed results, and compare with cutoffs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== SUPPORTED EXAMS ===== -->
+  <section class="section" id="exams">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Supported Exams</div>
+        <h2>Built for <span class="text-gradient">Every Competitive Exam</span></h2>
+        <p>Our exam pattern engine knows exactly how each exam works.</p>
+      </div>
+
+      <div class="exam-grid">
+        <div class="exam-badge">🏛️ SSC CGL</div>
+        <div class="exam-badge">📋 SSC CHSL</div>
+        <div class="exam-badge">🚂 RRB NTPC</div>
+        <div class="exam-badge">⚙️ RRB Group D</div>
+        <div class="exam-badge">🏦 Banking (IBPS/SBI)</div>
+        <div class="exam-badge">🏛️ UPSC Prelims</div>
+        <div class="exam-badge">📚 State PSC</div>
+        <div class="exam-badge">🎖️ Defence Exams</div>
+        <div class="exam-badge">⚡ Custom Pattern</div>
+      </div>
+
+      <!-- Subjects -->
+      <div class="section-header" style="margin-top: var(--space-3xl);">
+        <h3>Subjects Covered</h3>
+      </div>
+
+      <div class="exam-grid">
+        <div class="exam-badge">📖 General Knowledge</div>
+        <div class="exam-badge">🏰 History</div>
+        <div class="exam-badge">🌍 Geography</div>
+        <div class="exam-badge">⚖️ Polity</div>
+        <div class="exam-badge">🔬 Science</div>
+        <div class="exam-badge">🔢 Mathematics</div>
+        <div class="exam-badge">🧩 Reasoning</div>
+        <div class="exam-badge">📝 English</div>
+        <div class="exam-badge">💻 Computer</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Ready to <span class="text-gradient">Transform Your Preparation</span>?</h2>
+        <p>Join thousands of aspirants who are already using TestEra to create personalized exam tests from their own study material.</p>
+        <button class="btn btn-primary btn-lg" onclick="openModal('signupModal')">
+          <i class="fas fa-rocket"></i>
+          Start Free — No Credit Card
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="landing-footer">
+    <div class="container">
+      <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: var(--space-md);">
+        <div class="logo">
+          <div class="logo-icon">⚡</div>
+          TestEra
+        </div>
+        <p>© 2026 TestEra. Built for aspirants, by aspirants.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ===== LOGIN MODAL ===== -->
+  <div class="modal-backdrop" id="loginModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Welcome Back</h3>
+        <button class="modal-close" onclick="closeModal('loginModal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Google Login -->
+        <button class="btn btn-secondary w-full" id="btnGoogleLogin" style="justify-content: center; gap: 12px;">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+          Continue with Google
+        </button>
+
+        <div class="divider">or</div>
+
+        <!-- Email Login -->
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
+        </div>
+
+        <button class="btn btn-primary w-full" id="btnEmailLogin" style="justify-content: center;">
+          Log In
+        </button>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: var(--font-sm);">
+          <a href="#" id="forgotPasswordLink" style="color: var(--text-muted); transition: color 0.2s;"
+             onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Forgot password?</a>
+          <span>
+            <a href="#" style="color: var(--primary); font-weight: 600;" onclick="closeModal('loginModal'); openModal('signupModal'); return false;">Sign up</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== SIGNUP MODAL ===== -->
+  <div class="modal-backdrop" id="signupModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Account</h3>
+        <button class="modal-close" onclick="closeModal('signupModal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Google Signup -->
+        <button class="btn btn-secondary w-full" id="btnGoogleSignup" style="justify-content: center; gap: 12px;">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+          Continue with Google
+        </button>
+
+        <div class="divider">or</div>
+
+        <!-- Email Signup -->
+        <div class="form-group">
+          <label class="form-label" for="signupName">Full Name</label>
+          <input type="text" id="signupName" class="form-input" placeholder="Your full name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" class="form-input" placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" class="form-input" placeholder="Min. 6 characters">
+        </div>
+
+        <button class="btn btn-primary w-full" id="btnEmailSignup" style="justify-content: center;">
+          Create Account
+        </button>
+
+        <p class="text-center" style="font-size: var(--font-sm);">
+          Already have an account? 
+          <a href="#" style="color: var(--primary); font-weight: 600;" onclick="closeModal('signupModal'); openModal('loginModal'); return false;">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== PASSWORD RESET MODAL ===== -->
+  <div class="modal-backdrop" id="resetModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Reset Password</h3>
+        <button class="modal-close" onclick="closeModal('resetModal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: var(--font-sm); color: var(--text-secondary); margin-bottom: var(--space-sm);">
+          Enter your email address and we'll send you a link to reset your password.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="resetEmail">Email</label>
+          <input type="email" id="resetEmail" class="form-input" placeholder="your@email.com">
+        </div>
+
+        <button class="btn btn-primary w-full" id="btnSendReset" style="justify-content: center;">
+          <i class="fas fa-paper-plane"></i>
+          Send Reset Link
+        </button>
+
+        <p class="text-center" style="font-size: var(--font-sm);">
+          Remember your password?
+          <a href="#" style="color: var(--primary); font-weight: 600;" onclick="closeModal('resetModal'); openModal('loginModal'); return false;">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // ===== Navbar scroll effect =====
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('landingNav');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // ===== Modal Functions =====
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on backdrop click
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) {
+          backdrop.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.active').forEach(m => {
+          m.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ===== Toast Function =====
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <span class="toast-message">${message}</span>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // ===== Intersection Observer for animations =====
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card, .step-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+  <!-- Firebase + Auth Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
