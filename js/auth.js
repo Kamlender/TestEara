@@ -108,6 +108,16 @@ async function loginWithEmail(email, password) {
 
     return { success: true, user: credential.user };
   } catch (error) {
+    // If user doesn't exist, redirect to signup
+    if (error.code === 'auth/user-not-found') {
+      showToast('Account not found. Please sign up first!', 'warning');
+      closeModal('loginModal');
+      setTimeout(() => openModal('signupModal'), 300);
+      // Pre-fill email in signup form
+      const signupEmail = document.getElementById('signupEmail');
+      if (signupEmail) signupEmail.value = email;
+      return { success: false, error: 'User not found' };
+    }
     const friendlyError = getFriendlyAuthError(error);
     showToast(friendlyError, 'error');
     return { success: false, error: friendlyError };
