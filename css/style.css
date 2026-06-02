@@ -3061,3 +3061,15 @@ p {
   background: rgba(139, 92, 246, 0.3);
   color: var(--text-primary);
 }
+
+/* Social Auth Buttons Grid */
+.social-auth-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.social-auth-grid .btn {
+  font-size: var(--font-sm);
+  padding: var(--space-sm) var(--space-md);
+}

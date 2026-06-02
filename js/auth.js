@@ -119,26 +119,47 @@ async function loginWithEmail(email, password) {
 
 // ===== GOOGLE SIGN IN =====
 async function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('email');
+  provider.addScope('profile');
+  return signInWithProvider(provider, 'Google');
+}
+
+
+// ===== APPLE SIGN IN =====
+async function signInWithApple() {
+  const provider = new firebase.auth.OAuthProvider('apple.com');
+  provider.addScope('email');
+  provider.addScope('name');
+  return signInWithProvider(provider, 'Apple');
+}
+
+
+// ===== MICROSOFT SIGN IN =====
+async function signInWithMicrosoft() {
+  const provider = new firebase.auth.OAuthProvider('microsoft.com');
+  provider.addScope('email');
+  provider.addScope('profile');
+  return signInWithProvider(provider, 'Microsoft');
+}
+
+
+// ===== GENERIC PROVIDER SIGN IN =====
+async function signInWithProvider(provider, providerName) {
   if (!isFirebaseConfigured()) {
-    showToast('Firebase not configured. Add your config keys to js/firebase-config.js', 'warning');
+    showToast('Firebase not configured.', 'warning');
     return { success: false, error: 'Firebase not configured' };
   }
 
   try {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('email');
-    provider.addScope('profile');
-
-    // Use popup for desktop, redirect for mobile
     let credential;
     if (window.innerWidth < 768) {
       await auth.signInWithRedirect(provider);
-      return { success: true }; // Will redirect
+      return { success: true };
     } else {
       credential = await auth.signInWithPopup(provider);
     }
 
-    // Check if new user → create Firestore doc
     if (credential.additionalUserInfo?.isNewUser) {
       await createUserDocument(credential.user);
       showToast('Account created! Welcome to TestEara! 🎉', 'success');
@@ -148,13 +169,56 @@ async function signInWithGoogle() {
 
     return { success: true, user: credential.user };
   } catch (error) {
-    // Don't show error for popup closed by user
     if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
       return { success: false, error: 'cancelled' };
     }
     const friendlyError = getFriendlyAuthError(error);
     showToast(friendlyError, 'error');
     return { success: false, error: friendlyError };
+  }
+}
+
+
+// ===== PHONE SIGN IN =====
+let confirmationResult = null;
+
+async function signInWithPhone() {
+  if (!isFirebaseConfigured()) {
+    showToast('Firebase not configured.', 'warning');
+    return;
+  }
+
+  const phone = prompt('Enter your phone number with country code (e.g. +91XXXXXXXXXX):');
+  if (!phone || phone.length < 10) {
+    showToast('Please enter a valid phone number.', 'error');
+    return;
+  }
+
+  try {
+    // Create invisible recaptcha
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        size: 'invisible'
+      });
+    }
+
+    confirmationResult = await auth.signInWithPhoneNumber(phone, window.recaptchaVerifier);
+    showToast('OTP sent! Check your phone 📱', 'success');
+
+    const otp = prompt('Enter the OTP sent to ' + phone + ':');
+    if (!otp) return;
+
+    const result = await confirmationResult.confirm(otp);
+    
+    if (result.additionalUserInfo?.isNewUser) {
+      await createUserDocument(result.user);
+      showToast('Account created! Welcome to TestEara! 🎉', 'success');
+    } else {
+      showToast('Welcome back! 👋', 'success');
+    }
+  } catch (error) {
+    const friendlyError = getFriendlyAuthError(error);
+    showToast(friendlyError, 'error');
   }
 }
 
@@ -387,14 +451,27 @@ function initAuthForms() {
 
   // === Google Sign In (all Google buttons) ===
   const btnGoogleLogin = document.getElementById('btnGoogleLogin');
-  if (btnGoogleLogin) {
-    btnGoogleLogin.addEventListener('click', signInWithGoogle);
-  }
-
+  if (btnGoogleLogin) btnGoogleLogin.addEventListener('click', signInWithGoogle);
   const btnGoogleSignup = document.getElementById('btnGoogleSignup');
-  if (btnGoogleSignup) {
-    btnGoogleSignup.addEventListener('click', signInWithGoogle);
-  }
+  if (btnGoogleSignup) btnGoogleSignup.addEventListener('click', signInWithGoogle);
+
+  // === Apple Sign In ===
+  const btnAppleLogin = document.getElementById('btnAppleLogin');
+  if (btnAppleLogin) btnAppleLogin.addEventListener('click', signInWithApple);
+  const btnAppleSignup = document.getElementById('btnAppleSignup');
+  if (btnAppleSignup) btnAppleSignup.addEventListener('click', signInWithApple);
+
+  // === Microsoft Sign In ===
+  const btnMicrosoftLogin = document.getElementById('btnMicrosoftLogin');
+  if (btnMicrosoftLogin) btnMicrosoftLogin.addEventListener('click', signInWithMicrosoft);
+  const btnMicrosoftSignup = document.getElementById('btnMicrosoftSignup');
+  if (btnMicrosoftSignup) btnMicrosoftSignup.addEventListener('click', signInWithMicrosoft);
+
+  // === Phone Sign In ===
+  const btnPhoneLogin = document.getElementById('btnPhoneLogin');
+  if (btnPhoneLogin) btnPhoneLogin.addEventListener('click', signInWithPhone);
+  const btnPhoneSignup = document.getElementById('btnPhoneSignup');
+  if (btnPhoneSignup) btnPhoneSignup.addEventListener('click', signInWithPhone);
 
   // === Password Reset ===
   const btnSendReset = document.getElementById('btnSendReset');
