@@ -1,5 +1,5 @@
 /**
- * TestEra — Exam Patterns Configuration
+ * TestEara — Exam Patterns Configuration
  * Defines question counts, time limits, difficulty, marking scheme,
  * and question type distribution for each supported exam.
  */

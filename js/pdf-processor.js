@@ -1,5 +1,5 @@
 /**
- * TestEra — PDF Processor
+ * TestEara — PDF Processor
  * Handles PDF text extraction using PDF.js (client-side)
  * No server needed — everything runs in the browser.
  */
@@ -97,7 +97,7 @@ async function extractTextFromPdf(file) {
     if (emptyPages > totalPages * 0.7 || charCount < 100) {
       hideExtractionProgress();
       throw new Error(
-        'This PDF appears to be scanned or image-based. TestEra needs text-based PDFs. ' +
+        'This PDF appears to be scanned or image-based. TestEara needs text-based PDFs. ' +
         'Try using a PDF with selectable text, or convert your scanned PDF using an OCR tool first.'
       );
     }

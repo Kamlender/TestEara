@@ -1,5 +1,5 @@
 /**
- * TestEra — Dashboard & My Tests
+ * TestEara — Dashboard & My Tests
  * Loads stats from Firestore/localStorage, populates dashboard cards,
  * renders test history list, allows reviewing past results.
  */
@@ -239,7 +239,7 @@ async function getAllResults() {
 
   // Fallback to localStorage
   try {
-    results = JSON.parse(localStorage.getItem('testera_results') || '[]');
+    results = JSON.parse(localStorage.getItem('TestEara_results') || '[]');
   } catch (e) {
     results = [];
   }

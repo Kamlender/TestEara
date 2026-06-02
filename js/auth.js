@@ -1,5 +1,5 @@
 /**
- * TestEra — Authentication Module
+ * TestEara — Authentication Module
  * Handles email/password auth, Google sign-in, password reset,
  * auth state management, and protected route logic.
  */
@@ -141,7 +141,7 @@ async function signInWithGoogle() {
     // Check if new user → create Firestore doc
     if (credential.additionalUserInfo?.isNewUser) {
       await createUserDocument(credential.user);
-      showToast('Account created! Welcome to TestEra! 🎉', 'success');
+      showToast('Account created! Welcome to TestEara! 🎉', 'success');
     } else {
       showToast('Welcome back! 👋', 'success');
     }
@@ -266,7 +266,7 @@ function handleDemoMode() {
     if (typeof updateUserInfo === 'function') {
       updateUserInfo({
         displayName: 'Demo User',
-        email: 'demo@testera.app',
+        email: 'demo@TestEara.app',
         uid: 'demo-user'
       });
     }

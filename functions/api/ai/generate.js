@@ -1,5 +1,5 @@
 /**
- * TestEra — NVIDIA API Proxy (Cloudflare Function)
+ * TestEara — NVIDIA API Proxy (Cloudflare Function)
  * Proxies requests to NVIDIA API to avoid CORS issues.
  * Deployed as: /api/ai/generate
  */

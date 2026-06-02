@@ -1,5 +1,5 @@
 /**
- * TestEra — Profile & Settings
+ * TestEara — Profile & Settings
  * Loads user profile data and populates the profile view.
  * Save logic is in auth.js (saveProfile function).
  */

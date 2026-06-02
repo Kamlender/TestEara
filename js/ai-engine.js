@@ -1,5 +1,5 @@
 /**
- * TestEra — AI Question Generation Engine
+ * TestEara — AI Question Generation Engine
  * Uses NVIDIA API (OpenAI-compatible) to generate exam-pattern questions from PDF text.
  */
 
@@ -350,11 +350,11 @@ async function saveTestToFirestore(test) {
 // ===== LOCAL STORAGE FALLBACK =====
 function saveTestLocally(test) {
   try {
-    const tests = JSON.parse(localStorage.getItem('testera_tests') || '[]');
+    const tests = JSON.parse(localStorage.getItem('TestEara_tests') || '[]');
     tests.unshift(test);
     // Keep max 20 tests locally
     if (tests.length > 20) tests.pop();
-    localStorage.setItem('testera_tests', JSON.stringify(tests));
+    localStorage.setItem('TestEara_tests', JSON.stringify(tests));
     console.log('💾 Test saved locally:', test.id);
   } catch (e) {
     console.error('Local save error:', e);
@@ -363,7 +363,7 @@ function saveTestLocally(test) {
 
 function getLocalTests() {
   try {
-    return JSON.parse(localStorage.getItem('testera_tests') || '[]');
+    return JSON.parse(localStorage.getItem('TestEara_tests') || '[]');
   } catch (e) {
     return [];
   }

@@ -1,5 +1,5 @@
 /**
- * TestEra — App.js
+ * TestEara — App.js
  * SPA Navigation, UI interactions, file upload handling
  */
 
@@ -616,5 +616,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof initDashboard === 'function') initDashboard();
   }, 1500);
 
-  console.log('🚀 TestEra App initialized');
+  console.log('🚀 TestEara App initialized');
 });

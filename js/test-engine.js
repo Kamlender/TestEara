@@ -1,5 +1,5 @@
 /**
- * TestEra — Timed Test Engine
+ * TestEara — Timed Test Engine
  * Handles test taking: timer, question navigation, answer selection,
  * mark for review, auto-submit, scoring with negative marking.
  */
@@ -568,10 +568,10 @@ async function saveResults(results) {
 
   // Also save locally
   try {
-    const allResults = JSON.parse(localStorage.getItem('testera_results') || '[]');
+    const allResults = JSON.parse(localStorage.getItem('TestEara_results') || '[]');
     allResults.unshift(results);
     if (allResults.length > 50) allResults.pop();
-    localStorage.setItem('testera_results', JSON.stringify(allResults));
+    localStorage.setItem('TestEara_results', JSON.stringify(allResults));
   } catch (e) {
     console.error('Local save error:', e);
   }

@@ -1,5 +1,5 @@
 /**
- * TestEra — Local Dev Server
+ * TestEara — Local Dev Server
  * Serves static files + proxies NVIDIA API requests to avoid CORS issues.
  */
 
@@ -83,7 +83,7 @@ app.get('/{*path}', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\n  🚀 TestEra dev server running at:`);
+  console.log(`\n  🚀 TestEara dev server running at:`);
   console.log(`  ➜  http://localhost:${PORT}`);
   console.log(`  ➜  http://localhost:${PORT}/app\n`);
 });
