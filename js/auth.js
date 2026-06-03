@@ -283,9 +283,9 @@ function onUserSignedIn(user) {
   currentUser = user;
 
   // If on landing page → redirect to app
-  const isLandingPage = window.location.pathname.endsWith('index.html') ||
-                        window.location.pathname === '/' ||
-                        window.location.pathname.endsWith('/');
+  const isLandingPage = window.location.pathname === '/' ||
+                        window.location.pathname.endsWith('/') ||
+                        window.location.pathname.endsWith('index.html');
 
   // Check if we're on a page with modals (landing page)
   const loginModal = document.getElementById('loginModal');
@@ -296,7 +296,7 @@ function onUserSignedIn(user) {
   if (isLandingPage) {
     // Redirect to app after short delay for toast to show
     setTimeout(() => {
-      window.location.href = 'app.html';
+      window.location.href = '/app';
     }, 500);
     return;
   }
@@ -317,11 +317,11 @@ function onUserSignedIn(user) {
 function onUserSignedOut() {
   currentUser = null;
 
-  const isAppPage = window.location.pathname.endsWith('app.html');
+  const isAppPage = window.location.pathname.endsWith('/app') || window.location.pathname.endsWith('app.html');
 
   if (isAppPage) {
     // Redirect to landing page
-    window.location.href = 'index.html';
+    window.location.href = '/';
     return;
   }
 
@@ -333,7 +333,7 @@ function onUserSignedOut() {
 // ===== DEMO MODE =====
 // When Firebase is not configured, allow exploring the UI
 function handleDemoMode() {
-  const isAppPage = window.location.pathname.endsWith('app.html');
+  const isAppPage = window.location.pathname.endsWith('/app') || window.location.pathname.endsWith('app.html');
 
   if (isAppPage) {
     // In demo mode, show a demo user
@@ -393,7 +393,7 @@ function updateAuthNavButtons(isSignedIn) {
     const initial = name.charAt(0).toUpperCase();
 
     navAuth.innerHTML = `
-      <a href="app.html" class="btn btn-primary">
+      <a href="/app" class="btn btn-primary">
         <i class="fas fa-th-large"></i>
         Go to Dashboard
       </a>
